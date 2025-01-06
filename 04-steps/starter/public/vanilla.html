@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../src/style.css" />
     <title>Vanilla JS steps</title>
   </head>
+
   <body>
     <div class="steps">
       <div class="numbers">
@@ -60,14 +62,19 @@
 
       // Manually attaching event listeners
       btnPrevious.addEventListener('click', function () {
-        if (step > 1) step -= 1;
-        updateUIValues();
+        if (step > 1) {
+          step -= 1;
+          updateUIValues();
+        }
       });
 
       btnNext.addEventListener('click', function () {
-        if (step < 3) step += 1;
-        updateUIValues();
+        if (step < 3) {
+          step += 1;
+          updateUIValues();
+        }
       });
     </script>
   </body>
+
 </html>
