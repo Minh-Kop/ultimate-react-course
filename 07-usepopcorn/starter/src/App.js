@@ -280,9 +280,9 @@ function MovieDetails({ selectedId, onCloseMovie }) {
         );
         const data = await res.json();
         setMovie(data);
+        setIsLoading(false);
       }
       getMovieDetails();
-      setIsLoading(false);
     },
     [selectedId]
   );
