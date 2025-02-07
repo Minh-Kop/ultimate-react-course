@@ -1,4 +1,10 @@
-import { useReducer, useEffect, createContext, useContext } from "react";
+import {
+  useReducer,
+  useEffect,
+  createContext,
+  useContext,
+  useCallback,
+} from "react";
 
 const BASE_URL = "http://localhost:9000";
 
@@ -20,7 +26,11 @@ function reducer(state, action) {
       return { ...state, isLoading: false, cities: action.payload };
     }
     case "city/loaded": {
-      return { ...state, isLoading: false, currentCity: action.payload };
+      return {
+        ...state,
+        isLoading: false,
+        currentCity: action.payload,
+      };
     }
     case "city/created": {
       return {
@@ -70,23 +80,30 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
-  async function getCity(id) {
-    if (Number(id) === currentCity.id) {
-      return;
-    }
+  const getCity = useCallback(
+    async function getCity(id) {
+      console.log(`Before currentCity: ${currentCity.id}`);
+      if (Number(id) === currentCity.id) {
+        console.log("Duplicate id");
+        return;
+      }
 
-    dispatch({ type: "loading" });
-    try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      dispatch({ type: "city/loaded", payload: data });
-    } catch {
-      dispatch({
-        type: "rejected",
-        payload: "There was an error loading the city...",
-      });
-    }
-  }
+      dispatch({ type: "loading" });
+      try {
+        const res = await fetch(`${BASE_URL}/cities/${id}`);
+        const data = await res.json();
+        dispatch({ type: "city/loaded", payload: data });
+      } catch {
+        dispatch({
+          type: "rejected",
+          payload: "There was an error loading the city...",
+        });
+      } finally {
+        console.log(`After currentCity: ${currentCity.id}`);
+      }
+    },
+    [currentCity.id]
+  );
 
   async function createCity(newCity) {
     dispatch({ type: "loading" });
