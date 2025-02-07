@@ -82,9 +82,7 @@ function CitiesProvider({ children }) {
 
   const getCity = useCallback(
     async function getCity(id) {
-      console.log(`Before currentCity: ${currentCity.id}`);
       if (Number(id) === currentCity.id) {
-        console.log("Duplicate id");
         return;
       }
 
@@ -98,8 +96,6 @@ function CitiesProvider({ children }) {
           type: "rejected",
           payload: "There was an error loading the city...",
         });
-      } finally {
-        console.log(`After currentCity: ${currentCity.id}`);
       }
     },
     [currentCity.id]
