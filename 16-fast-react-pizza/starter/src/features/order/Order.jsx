@@ -9,12 +9,12 @@ import {
   formatDate,
 } from "../../utils/helpers";
 import OrderItem from "./OrderItem";
+import UpdateOrder from "./UpdateOrder";
 
 function Order() {
   const order = useLoaderData();
 
   const fetcher = useFetcher();
-  console.log(fetcher);
 
   useEffect(
     function () {
@@ -72,8 +72,8 @@ function Order() {
             key={item.pizzaId}
             isLoadingIngredients={fetcher.state === "loading"}
             ingredients={
-              fetcher.data?.find((el) => el.id === item.pizzaId)
-                ?.ingredients ?? []
+              fetcher.data?.find((el) => el.id === item.pizzaId)?.ingredients ??
+              []
             }
           />
         ))}
@@ -92,6 +92,8 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }
