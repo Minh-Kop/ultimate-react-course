@@ -1,13 +1,19 @@
 import { useEffect, useRef } from "react";
 
-export function useOutsideClick(handler, listenCapturing = true) {
+export function useOutsideClick(
+  handler,
+  listenCapturing = true,
+  className = null
+) {
   const ref = useRef();
 
   useEffect(
     function () {
       function handleClick(e) {
         if (ref.current && !ref.current.contains(e.target)) {
-          console.log("Hello from outerClick");
+          if (className && e.target.closest(className)) {
+            return;
+          }
           handler();
         }
       }
@@ -18,7 +24,7 @@ export function useOutsideClick(handler, listenCapturing = true) {
         document.removeEventListener("click", handleClick, listenCapturing);
       };
     },
-    [handler, listenCapturing]
+    [handler, listenCapturing, className]
   );
 
   return ref;

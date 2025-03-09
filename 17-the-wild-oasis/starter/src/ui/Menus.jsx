@@ -94,19 +94,18 @@ function Toggle({ id }) {
       y: rect.y + rect.height + 8,
     });
 
-    console.log({ id, openId });
-    openId === "" || openId !== id ? open(id) : close();
+    openId !== id ? open(id) : close();
   }
 
   return (
-    <StyledToggle onClick={handleClick}>
+    <StyledToggle className="toggle" onClick={handleClick}>
       <HiEllipsisVertical />
     </StyledToggle>
   );
 }
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
-  const ref = useOutsideClick(close);
+  const ref = useOutsideClick(close, true, ".toggle");
 
   if (openId !== id) {
     return null;
